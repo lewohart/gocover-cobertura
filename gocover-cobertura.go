@@ -120,7 +120,7 @@ func getPackages(profiles []*Profile) ([]*packages.Package, error) {
 
 func getPackageName(filename string) string {
 	pkgName, _ := filepath.Split(filename)
-	// TODO(boumenot): Windows vs. Linux
+	// TODO(lewohart): Windows vs. Linux
 	return strings.TrimRight(strings.TrimRight(pkgName, "\\"), "/")
 }
 
@@ -172,7 +172,7 @@ func (cov *Coverage) parseProfile(profile *Profile, pkgPkg *packages.Package, ig
 	pkgPath, _ := filepath.Split(fileName)
 	pkgPath = strings.TrimRight(strings.TrimRight(pkgPath, "/"), "\\")
 	pkgPath = filepath.Join(pkgPkg.Module.Path, pkgPath)
-	// TODO(boumenot): package paths are not file paths, there is a consistent separator
+	// TODO(lewohart): package paths are not file paths, there is a consistent separator
 	pkgPath = strings.Replace(pkgPath, "\\", "/", -1)
 
 	var pkg *Package
@@ -254,7 +254,7 @@ func (v *fileVisitor) class(n *ast.FuncDecl) *Class {
 	if byFiles {
 		//className = filepath.Base(v.fileName)
 		//
-		// NOTE(boumenot): ReportGenerator creates links that collide if names are not distinct.
+		// NOTE(lewohart): ReportGenerator creates links that collide if names are not distinct.
 		// This could be an issue in how I am generating the report, but I have not been able
 		// to figure it out.  The work around is to generate a fully qualified name based on
 		// the file path.

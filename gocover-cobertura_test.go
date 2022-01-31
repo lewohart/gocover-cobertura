@@ -178,7 +178,7 @@ func TestConvertSetMode(t *testing.T) {
 	require.Len(t, v.Packages, 1)
 
 	p := v.Packages[0]
-	require.Equal(t, "github.com/boumenot/gocover-cobertura/testdata", strings.TrimRight(p.Name, "/"))
+	require.Equal(t, "github.com/lewohart/gocover-cobertura/testdata", strings.TrimRight(p.Name, "/"))
 	require.NotNil(t, p.Classes)
 	require.Len(t, p.Classes, 2)
 
