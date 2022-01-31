@@ -68,6 +68,15 @@ func convert(in io.Reader, out io.Writer, ignore *Ignore) error {
 		return err
 	}
 
+	appendIfUnique := func(sources []*Source, dir string) []*Source {
+		for _, source := range sources {
+			if source.Path == dir {
+				return sources
+			}
+		}
+		return append(sources, &Source{dir})
+	}
+
 	sources := make([]*Source, 0)
 	pkgMap := make(map[string]*packages.Package)
 	for _, pkg := range pkgs {
@@ -100,18 +109,13 @@ func getPackages(profiles []*Profile) ([]*packages.Package, error) {
 
 	var pkgNames []string
 	for _, profile := range profiles {
-		pkgNames = append(pkgNames, getPackageName(profile.FileName))
-	}
-	return packages.Load(&packages.Config{Mode: packages.NeedFiles | packages.NeedModule}, pkgNames...)
-}
+		packageName := getPackageName(profile.FileName)
 
-func appendIfUnique(sources []*Source, dir string) []*Source {
-	for _, source := range sources {
-		if source.Path == dir {
-			return sources
+		if len(strings.TrimSpace(packageName)) > 0 {
+			pkgNames = append(pkgNames, packageName)
 		}
 	}
-	return append(sources, &Source{dir})
+	return packages.Load(&packages.Config{Mode: packages.NeedFiles | packages.NeedModule}, pkgNames...)
 }
 
 func getPackageName(filename string) string {
